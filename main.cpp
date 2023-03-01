@@ -187,7 +187,7 @@ double intersect(double **prmtrs, int i, int j) {
 }
 
 int main() {
-  string path = "test.txt";
+  string path = "test";
   vector<string> str = dataFromFile(path); // вектор строк из файла
   int k = str.size();
   double **prmtrs;
