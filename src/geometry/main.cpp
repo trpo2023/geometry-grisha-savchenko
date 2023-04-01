@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-  string path = "/home/grisha/geometry-grisha-savchenko/src/geometry/test";
+  string path = "test";
   vector<string> str = dataFromFile(path); // вектор строк из файла
   int k = str.size();
   double **prmtrs;
