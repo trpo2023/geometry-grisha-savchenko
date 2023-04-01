@@ -15,4 +15,4 @@ int Skeeper(string str, int i);
 void StrChek(string str, double prmtrs[]);
 double perimter(double r);
 double area(double r);
-double intersect(double **prmtrs, int i, int j);
+double intersect(double** prmtrs, int i, int j);
