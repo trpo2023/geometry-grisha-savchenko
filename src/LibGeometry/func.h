@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <string>
+#include <vector>
 
 std ::vector<std ::string> dataFromFile(std ::string path);
 int SpaceSkeeper(std ::string str, int i);
