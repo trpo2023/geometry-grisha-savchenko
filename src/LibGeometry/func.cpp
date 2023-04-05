@@ -1,3 +1,4 @@
+#include <LibGeometry/func.h>
 #include <fstream>
 #include <iostream>
 #include <locale.h>
@@ -6,130 +7,134 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
-vector<string>
-dataFromFile(string path) // записываем данные из файла в массив строк
+std ::vector<std ::string>
+dataFromFile(std ::string path) // записываем данные из файла в массив строк
 {
-    string line = "";
+    std ::string line = "";
     int index = 0;
     int dataSize = 0;
 
-    ifstream checkLines(path);
+    std ::ifstream checkLines(path);
     if (checkLines.is_open()) {
         while (getline(checkLines, line))
             dataSize++;
     } else
-        cout << "Файл не удалось открыть" << endl;
+        std ::cout << "Файл не удалось открыть" << std ::endl;
     checkLines.close();
 
     line = "";
-    vector<string> data(dataSize);
+    std ::vector<std ::string> data(dataSize);
 
-    ifstream in(path);
+    std ::ifstream in(path);
     if (in.is_open()) {
         while (getline(in, line)) {
             data[index] = line;
             index++;
         }
     } else
-        cout << "Файл не удалось открыть" << endl;
+        std ::cout << "Файл не удалось открыть" << std ::endl;
     in.close();
     return data;
 }
 
-int SpaceSkeeper(string str, int i)
+int SpaceSkeeper(std ::string str, int i)
 {
     if (str[i] != ' ')
         return i;
     return SpaceSkeeper(str, ++i);
 }
 
-int Skeeper(string str, int i)
+int Skeeper(std ::string str, int i)
 {
     if (str[i] == ' ')
         return i;
     return Skeeper(str, ++i);
 }
 
-void StrChek(string str, double prmtrs[])
+void StrChek(std ::string str, double prmtrs[])
 {
     int dotc = 0;
     unsigned int i = 0;
 
-    string point1 = "";
-    string point2 = "";
-    string radius = "";
+    std ::string point1 = "";
+    std ::string point2 = "";
+    std ::string radius = "";
 
     i = SpaceSkeeper(str, i);
 
     if (str.find("circle", i) != i) {
-        cout << "Error at column " << i << ": expected 'circle'" << endl;
+        std ::cout << "Error at column " << i << ": expected 'circle'"
+                   << std ::endl;
         return;
     } else {
-        string cstr = "circle";
+        std ::string cstr = "circle";
         i += cstr.size();
     }
 
     if ((str[i] != ' ') && (str[i] != '('))
-        cout << "Error at column " << i << ": expected 'circle'" << endl;
+        std ::cout << "Error at column " << i << ": expected 'circle'"
+                   << std ::endl;
 
     i = SpaceSkeeper(str, i);
     if (str[i] != '(') {
-        cout << "Error at column " << i << ": expected '('" << endl;
+        std ::cout << "Error at column " << i << ": expected '('" << std ::endl;
         return;
     }
     i += 1;
 
-    string digit = "1234567890.";
+    std ::string digit = "1234567890.";
 
     do {
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
-            cout << "Error at column " << i << ": expected 'double'" << endl;
+            std ::cout << "Error at column " << i << ": expected 'double'"
+                       << std ::endl;
             return;
         }
         if (str[i] == '.') {
             dotc++;
             if (dotc > 2)
-                cout << "Error at column " << i << ": expected 'double'"
-                     << endl;
+                std ::cout << "Error at column " << i << ": expected 'double'"
+                           << std ::endl;
             ;
         }
         point1.append(str, i, 1);
         i++;
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
-            cout << "Error at column " << i << ": expected 'double'" << endl;
+            std ::cout << "Error at column " << i << ": expected 'double'"
+                       << std ::endl;
             return;
         }
     } while (isdigit(str[i]) || (str[i] == '.'));
-    cout << point1 << endl;
+    std ::cout << point1 << std ::endl;
     dotc = 0;
     i++;
 
     do {
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && ((str[i] != ','))) {
-            cout << "Error at column " << i << ": expected 'double'" << endl;
+            std ::cout << "Error at column " << i << ": expected 'double'"
+                       << std ::endl;
             return;
         }
         if (str[i] == '.') {
             dotc++;
             if (dotc > 2)
-                cout << "Error at column " << i << ": expected 'double'"
-                     << endl;
+                std ::cout << "Error at column " << i << ": expected 'double'"
+                           << std ::endl;
             ;
         }
         point2.append(str, i, 1);
         i++;
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && ((str[i] != ','))) {
-            cout << "Error at column " << i << ": expected 'double'" << endl;
+            std ::cout << "Error at column " << i << ": expected 'double'"
+                       << std ::endl;
             return;
         }
     } while (isdigit(str[i]) || (str[i] == '.'));
-    cout << point2 << endl;
+    std ::cout << point2 << std ::endl;
     dotc = 0;
 
     if (str[i] != ',') {
-        cout << "Error at column " << i << ": expected ','" << endl;
+        std ::cout << "Error at column " << i << ": expected ','" << std ::endl;
         return;
     }
     i++;
@@ -137,29 +142,31 @@ void StrChek(string str, double prmtrs[])
         i++;
 
     if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
-        cout << "Error at column " << i << ": expected 'double'" << endl;
+        std ::cout << "Error at column " << i << ": expected 'double'"
+                   << std ::endl;
         return;
     }
     do {
         if (str[i] == '.') {
             dotc++;
             if (dotc > 2)
-                cout << "Error at column " << i << ": expected 'double'"
-                     << endl;
+                std ::cout << "Error at column " << i << ": expected 'double'"
+                           << std ::endl;
             ;
         }
         radius.append(str, i, 1);
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ')')) {
-            cout << "Error at column " << i << ": expected 'double'" << endl;
+            std ::cout << "Error at column " << i << ": expected 'double'"
+                       << std ::endl;
             return;
         }
         i++;
     } while ((isdigit(str[i]) || (str[i] == '.') || (i < str.length()))
              && str[i] != ')');
-    cout << radius << endl;
+    std ::cout << radius << std ::endl;
 
     if (str.find(")", i) != i) {
-        cout << "Error at column " << i << ": expected ')'" << endl;
+        std ::cout << "Error at column " << i << ": expected ')'" << std ::endl;
         return;
     }
     i += 1;
@@ -167,7 +174,8 @@ void StrChek(string str, double prmtrs[])
 
     while (i < str.size()) {
         if (str[i] != ' ') {
-            cout << "Error at column " << i << ": unexpecteble token" << endl;
+            std ::cout << "Error at column " << i << ": unexpecteble token"
+                       << std ::endl;
             return;
         }
         i++;
