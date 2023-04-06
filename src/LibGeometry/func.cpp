@@ -51,69 +51,64 @@ int Skeeper(std ::string str, int i)
     return Skeeper(str, ++i);
 }
 
-void StrChek(std ::string str, double prmtrs[])
+int IsFingCircle(std ::string str, unsigned int& i)
 {
-    int dotc = 0;
-    unsigned int i = 0;
-
-    std ::string point1 = "";
-    std ::string point2 = "";
-    std ::string radius = "";
-
-    i = SpaceSkeeper(str, i);
-
     if (str.find("circle", i) != i) {
         std ::cout << "Error at column " << i << ": expected 'circle'"
                    << std ::endl;
-        return;
+        return -1;
     } else {
         std ::string cstr = "circle";
         i += cstr.size();
+        return 0;
     }
+}
 
-    if ((str[i] != ' ') && (str[i] != '('))
+int IsFingLeftBracket(std ::string str, unsigned int& i)
+{
+    if (str[i] != '(') {
         std ::cout << "Error at column " << i << ": expected 'circle'"
                    << std ::endl;
-
-    i = SpaceSkeeper(str, i);
-    if (str[i] != '(') {
-        std ::cout << "Error at column " << i << ": expected '('" << std ::endl;
-        return;
+        return -1;
     }
-    i += 1;
+    return 0;
+}
 
-    std ::string digit = "1234567890.";
-
+int IsFingFirstDigit1(std ::string str, unsigned int& i, std ::string& point1)
+{
+    int dotc = 0;
     do {
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
             std ::cout << "Error at column " << i << ": expected 'double'"
                        << std ::endl;
-            return;
+            return -1;
         }
         if (str[i] == '.') {
             dotc++;
             if (dotc > 2)
                 std ::cout << "Error at column " << i << ": expected 'double'"
                            << std ::endl;
-            ;
         }
         point1.append(str, i, 1);
         i++;
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
             std ::cout << "Error at column " << i << ": expected 'double'"
                        << std ::endl;
-            return;
+            return -1;
         }
     } while (isdigit(str[i]) || (str[i] == '.'));
     std ::cout << point1 << std ::endl;
-    dotc = 0;
-    i++;
+    return 0;
+}
 
+int IsFingSecDigit2(std ::string str, unsigned int& i, std ::string& point2)
+{
+    int dotc = 0;
     do {
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && ((str[i] != ','))) {
             std ::cout << "Error at column " << i << ": expected 'double'"
                        << std ::endl;
-            return;
+            return -1;
         }
         if (str[i] == '.') {
             dotc++;
@@ -127,24 +122,29 @@ void StrChek(std ::string str, double prmtrs[])
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && ((str[i] != ','))) {
             std ::cout << "Error at column " << i << ": expected 'double'"
                        << std ::endl;
-            return;
+            return -1;
         }
     } while (isdigit(str[i]) || (str[i] == '.'));
     std ::cout << point2 << std ::endl;
-    dotc = 0;
+    return 0;
+}
 
+int IsFingLeftComma(std ::string str, unsigned int& i)
+{
     if (str[i] != ',') {
         std ::cout << "Error at column " << i << ": expected ','" << std ::endl;
-        return;
+        return -1;
     }
-    i++;
-    if (str[i] == ' ')
-        i++;
+    return 0;
+}
 
+int IsFingLeftDigit3(std ::string str, unsigned int& i, std ::string& radius)
+{
+    int dotc = 0;
     if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ' ')) {
         std ::cout << "Error at column " << i << ": expected 'double'"
                    << std ::endl;
-        return;
+        return -1;
     }
     do {
         if (str[i] == '.') {
@@ -158,28 +158,73 @@ void StrChek(std ::string str, double prmtrs[])
         if ((isdigit(str[i]) == 0) && (str[i] != '.') && (str[i] != ')')) {
             std ::cout << "Error at column " << i << ": expected 'double'"
                        << std ::endl;
-            return;
+            return -1;
         }
         i++;
     } while ((isdigit(str[i]) || (str[i] == '.') || (i < str.length()))
              && str[i] != ')');
     std ::cout << radius << std ::endl;
+    return 0;
+}
 
+int IsFingRightBracket(std ::string str, unsigned int& i)
+{
     if (str.find(")", i) != i) {
         std ::cout << "Error at column " << i << ": expected ')'" << std ::endl;
-        return;
+        return -1;
     }
-    i += 1;
-    SpaceSkeeper(str, i);
+    return 0;
+}
 
+int UnexToken(std ::string str, unsigned int& i)
+{
     while (i < str.size()) {
         if (str[i] != ' ') {
             std ::cout << "Error at column " << i << ": unexpecteble token"
                        << std ::endl;
-            return;
+            return -1;
         }
         i++;
     }
+    return 0;
+}
+
+void StrChek(std ::string str, double prmtrs[])
+{
+    unsigned int i = 0;
+
+    std ::string point1 = "";
+    std ::string point2 = "";
+    std ::string radius = "";
+
+    i = SpaceSkeeper(str, i);
+
+    IsFingCircle(str, i);
+
+    i = SpaceSkeeper(str, i);
+
+    IsFingLeftBracket(str, i);
+
+    i += 1;
+
+    IsFingFirstDigit1(str, i, point1);
+
+    i++;
+
+    IsFingSecDigit2(str, i, point2);
+
+    IsFingLeftComma(str, i);
+    i++;
+    if (str[i] == ' ')
+        i++;
+
+    IsFingLeftDigit3(str, i, radius);
+
+    IsFingRightBracket(str, i);
+    i += 1;
+    SpaceSkeeper(str, i);
+
+    UnexToken(str, i);
     prmtrs[0] = stod(point1);
     prmtrs[1] = stod(point2);
     prmtrs[2] = stod(radius);
