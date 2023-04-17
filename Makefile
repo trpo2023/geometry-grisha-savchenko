@@ -20,11 +20,9 @@ APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
 LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 
-DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) thirdparty/ctest.h
+DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) #obj/src/test1/main.o:
 
-test_cpp = test1/%.cpp
-test_obj = obj/src/test/%.o
-test_exe = 
+test_exe = bin/testm
 
 .PHONY: all
 all: $(APP_PATH)
@@ -49,11 +47,20 @@ clean:
 	$(RM) $(test_exe)
 	
 .PHONY: test
-
+Test_Name = test
+Test_Path = obj/src/test1
 test:$(test_exe)
 
-$(test_exe): $(test_obj) $(LIB_PATH)
+$(test_exe):$(Test_Path)/main.o obj/src/test1/$(Test_Name).o $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
 	
-$(test_obj): $(test_cpp)
+$(Test_Path)/$(Test_Name).o: test1/$(Test_Name).cpp
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+
+$(Test_Path)/$(Test_Name).o: thirdparty/ctest.h
+
+$(Test_Path)/main.o: test1/main.cpp
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+	
+$(Test_Path)/main.o: thirdparty/ctest.h
+
