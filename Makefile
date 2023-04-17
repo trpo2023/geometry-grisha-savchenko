@@ -48,7 +48,10 @@ clean:
 	$(RM) $(test_obj)
 	$(RM) $(test_exe)
 	
-.PHONY: $(test_exe)
+.PHONY: test
+
+test:$(test_exe)
+
 $(test_exe): $(test_obj) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
 	
