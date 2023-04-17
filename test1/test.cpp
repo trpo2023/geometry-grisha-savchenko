@@ -14,4 +14,3 @@ CTEST(parsing_suite, IsFingCircle)
     const int expected = 0;
     ASSERT_EQUAL(expected, result);
 }
-
