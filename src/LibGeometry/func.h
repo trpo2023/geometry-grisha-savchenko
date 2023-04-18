@@ -3,12 +3,10 @@
 #include <vector>
 
 std ::vector<std ::string> dataFromFile(std ::string path);
-int SpaceSkeeper(std ::string str, int i);
-int Skeeper(std ::string str, int i);
 void StrChek(std ::string str, double prmtrs[]);
 double perimter(double r);
 double area(double r);
-double intersect(double** prmtrs, int i, int j);
+int intersect(double** prmtrs, int i, int j);
 int IsFingCircle(std ::string str, unsigned int& i);
 int IsFingLeftBracket(std ::string str, unsigned int& i);
 int IsFingFirstDigit1(std ::string str, unsigned int& i, std ::string& point1);

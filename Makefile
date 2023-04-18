@@ -1,8 +1,10 @@
 APP_NAME = geometry
 LIB_NAME = LibGeometry
 
+source_dirs = thirdparty src/geometry src/LibGeometry 
+
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = -I src -MP -MMD
+CPPFLAGS = $(addprefix -I,$(source_dirs)) -MD
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -20,14 +22,10 @@ APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
 LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 
-DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) #obj/src/test1/main.o:
-
-test_exe = bin/testm
-
 .PHONY: all
 all: $(APP_PATH)
 
--include $(DEPS)
+-include $(wildcard *.d) 
 
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
@@ -46,9 +44,13 @@ clean:
 	$(RM) $(test_obj)
 	$(RM) $(test_exe)
 	
-.PHONY: test
+
 Test_Name = test
 Test_Path = obj/src/test1
+test_exe = bin/testm
+
+.PHONY: test
+
 test:$(test_exe)
 
 $(test_exe):$(Test_Path)/main.o obj/src/test1/$(Test_Name).o $(LIB_PATH)
@@ -57,10 +59,7 @@ $(test_exe):$(Test_Path)/main.o obj/src/test1/$(Test_Name).o $(LIB_PATH)
 $(Test_Path)/$(Test_Name).o: test1/$(Test_Name).cpp
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-$(Test_Path)/$(Test_Name).o: thirdparty/ctest.h
-
 $(Test_Path)/main.o: test1/main.cpp
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 	
-$(Test_Path)/main.o: thirdparty/ctest.h
 

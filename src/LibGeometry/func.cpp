@@ -1,5 +1,5 @@
-#include <LibGeometry/func.h>
 #include <fstream>
+#include <func.h>
 #include <iostream>
 #include <locale.h>
 #include <math.h>
@@ -67,8 +67,7 @@ int IsFingCircle(std ::string str, unsigned int& i)
 int IsFingLeftBracket(std ::string str, unsigned int& i)
 {
     if (str[i] != '(') {
-        std ::cout << "Error at column " << i << ": expected 'circle'"
-                   << std ::endl;
+        std ::cout << "Error at column " << i << ": ('" << std ::endl;
         return -1;
     }
     return 0;
@@ -241,13 +240,13 @@ double area(double r)
     return r * r * 3.14;
 }
 
-double intersect(double** prmtrs, int i, int j)
+int intersect(double** prmtrs, int i, int j)
 {
-    int verdict = 0;
+    int verdict = 1;
     if (sqrt(pow((prmtrs[i][0] - prmtrs[j][0]), 2)
              + pow((prmtrs[i][1] - prmtrs[j][1]), 2))
         > (prmtrs[i][2] + prmtrs[j][2])) {
-        verdict = 1;
+        verdict = 0;
     }
 
     return verdict;
