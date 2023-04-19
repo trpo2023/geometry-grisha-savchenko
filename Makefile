@@ -1,10 +1,11 @@
+
 APP_NAME = geometry
 LIB_NAME = LibGeometry
 
 source_dirs = thirdparty src/geometry src/LibGeometry 
 
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = $(addprefix -I,$(source_dirs)) -Isrc -MP -MMD
+CPPFLAGS = $(addprefix -I,$(source_dirs)) -MD
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -22,16 +23,11 @@ APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
 LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 
-TEST_SOURCES = $(shell find test1 -name '*.$(SRC_EXT)')
-TEST_OBJECTS = $(TEST_SOURCES:test1/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
-
-
-DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $(TEST_OBJECTS:.o=.d)
-
 .PHONY: all
 all: $(APP_PATH)
 
--include $((APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $()
+-include $(wildcard *.d) 
+
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
 
@@ -67,4 +63,3 @@ $(Test_Path)/$(Test_Name).o: test1/$(Test_Name).cpp
 $(Test_Path)/main.o: test1/main.cpp
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 	
-
