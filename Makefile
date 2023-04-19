@@ -4,7 +4,7 @@ LIB_NAME = LibGeometry
 source_dirs = thirdparty src/geometry src/LibGeometry 
 
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = $(addprefix -I,$(source_dirs)) -MP -MMD
+CPPFLAGS = $(addprefix -I ,$(source_dirs)) -I src -MP -MMD
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -26,7 +26,7 @@ TEST_SOURCES = $(shell find test1 -name '*.$(SRC_EXT)')
 TEST_OBJECTS = $(TEST_SOURCES:test1/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 
 
-DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)  $(TEST_OBJECTS:.o=.d)
+DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $(TEST_OBJECTS:.o=.d)
 
 .PHONY: all
 all: $(APP_PATH)
