@@ -4,7 +4,7 @@ LIB_NAME = LibGeometry
 source_dirs = thirdparty src/geometry src/LibGeometry 
 
 CFLAGS = -Wall -Wextra -Werror
-CPPFLAGS = $(addprefix -I,$(source_dirs)) -MD
+CPPFLAGS = $(addprefix -I,$(source_dirs)) -MP -MMD
 
 BIN_DIR = bin
 OBJ_DIR = obj
