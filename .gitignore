@@ -1,0 +1,10 @@
+*.o
+.main.c.swp
+main.c~
+#main.c#
+Makefile~
+.goutputstream-DY4401
+main
+bin
+obj
+ 
