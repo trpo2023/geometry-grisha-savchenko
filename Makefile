@@ -25,7 +25,7 @@ LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 .PHONY: all
 all: $(APP_PATH)
 
--include $(wildcard *.o=*.d) 
+-include $(wildcard %.o=%.d) 
 
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
