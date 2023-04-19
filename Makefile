@@ -22,11 +22,16 @@ APP_OBJECTS = $(APP_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 LIB_SOURCES = $(shell find $(SRC_DIR)/$(LIB_NAME) -name '*.$(SRC_EXT)')
 LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 
+TEST_SOURCES = $(shell find test1 -name '*.$(SRC_EXT)')
+TEST_OBJECTS = $(TEST_SOURCES:test1/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
+
+
+DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)  $(TEST_OBJECTS:.o=.d)
+
 .PHONY: all
 all: $(APP_PATH)
 
--include $(wildcard %.o=%.d) 
-
+-include $((APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d) $()
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
 
